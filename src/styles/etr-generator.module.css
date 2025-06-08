@@ -1,0 +1,452 @@
+/* ETRGenerator Component Styles - CSS Module */
+
+.etrGeneratorContainer {
+  background-color: rgb(51, 51, 51);
+  font-family: "Roboto", sans-serif;
+  color: white;
+  min-height: 100vh;
+}
+
+.etrContent {
+  padding: 1rem;
+}
+
+.etrContent input[type=number]::-webkit-inner-spin-button, 
+.etrContent input[type=number]::-webkit-outer-spin-button {  
+  opacity: 1;
+}
+
+.etrContent li {
+  list-style: none;
+}
+
+.etrContent fieldset {
+  margin: 1.5rem 0;
+}
+
+.etrContent h2 {
+  font-size: 1.4rem;
+}
+
+/* Header Component */
+.headerContainer {
+  text-align: center;
+}
+
+.title {
+  font-size: 3rem;
+  letter-spacing: 0.2rem;
+}
+
+.neonText {
+  color: #FFF;
+  text-shadow:
+    0 0 5px #FFF,
+    0 0 10px #FFF,
+    0 0 20px #FFF,
+    0 0 40px rgb(63, 92, 255),
+    0 0 80px rgb(63, 92, 255),
+    0 0 90px rgb(63, 92, 255),
+    0 0 100px rgb(63, 92, 255);
+}
+
+.redNeon {
+  color: #c95b5b;
+  text-shadow:
+    0 0 5px #c95b5b,
+    0 0 10px #da4848,
+    0 0 40px #da4848,
+    0 0 80px #da4848,
+    0 0 90px rgb(63, 92, 255),
+    0 0 100px rgb(63, 92, 255);
+}
+
+.neonText span {
+  animation: flicker 1100ms infinite;
+}
+
+.neonFlicker {
+  animation-delay: 0.1s;
+}
+
+@keyframes flicker {
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  20% {opacity: 0;}
+  40% {opacity: 1;}
+  50% {opacity: 0;}
+  60% {opacity: 1;}
+  80% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.versionNo {
+  display: block;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.warning {
+  letter-spacing: 0.3rem;
+  color: #ffffff;
+  text-shadow:
+    0 0 5px #ffffff,
+    0 0 40px #ffffff;
+}
+
+.datePickerContainer {
+  margin: 1rem 0;
+}
+
+.datePickerContainer input {
+  color: rgb(212, 212, 212);
+  text-align: center;
+  font-size: 1.1rem;
+  background-color: #505050;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.etrContent legend {
+  font-size: 1.3rem;
+  letter-spacing: 0.15rem;
+  color: #FFF;
+  text-shadow:
+    0 0 5px #FFF,
+    0 0 10px #FFF,
+    0 0 20px #FFF,
+    0 0 40px rgb(63, 92, 255),
+    0 0 80px rgb(63, 92, 255),
+    0 0 90px rgb(63, 92, 255),
+    0 0 100px rgb(63, 92, 255);
+}
+
+/* CCOM Container */
+.ccomContainer {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+/* Bulletin Container */
+.bulletinContainer {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.bulletinControlContainer {
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.bulletinLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.bulletinInputGroup {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #404040;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bulletinButton {
+  width: 50px;
+  height: 50px;
+  background-color: #4a90e2;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.bulletinButton:hover:not(:disabled) {
+  background-color: #357abd;
+}
+
+.bulletinButton:active:not(:disabled) {
+  background-color: #2968a3;
+}
+
+.bulletinButton:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.bulletinInput {
+  width: 80px;
+  height: 50px;
+  background-color: #505050;
+  border: none;
+  border-left: 1px solid #666;
+  border-right: 1px solid #666;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide number input spinners */
+.bulletinInput::-webkit-outer-spin-button,
+.bulletinInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bulletinInput {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.etrContent li, 
+.etrContent p {
+  margin-bottom: 1rem;
+}
+
+.bulletinDataContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.leftColumn {
+  color: rgb(196, 59, 59);
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.leftColumn li {
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  font-size: 0.9rem;
+}
+
+.rightColumn {
+  flex: 1;
+}
+
+.rightColumn li {
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* Additional Remarks Container */
+.additionalRemarksContainer {
+  margin-bottom: 4.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.additionalRemarkInput {
+  width: 100%;
+  height: 5rem;
+  font-size: 1rem;
+}
+
+/* Copy Button */
+.copyButton {
+  cursor: pointer;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 7%;
+  background-color: #17c47c;
+  animation: blink 2s infinite linear;
+  color: white;
+  font-size: 2.2rem;
+  border: none;
+  border-radius: 0.5rem 0.5rem 0 0;
+  text-shadow:
+    0 0 5px #FFF,
+    0 0 10px #FFF,
+    0 0 20px #FFF,
+    0 0 40px rgb(63, 92, 255),
+    0 0 80px rgb(63, 92, 255),
+    0 0 90px rgb(63, 92, 255),
+    0 0 100px rgb(63, 92, 255);
+}
+
+@keyframes blink {
+  0%, 100% {
+    background-color: #17c47c;
+    box-shadow:
+      0 0 5px #17c47c,
+      0 0 25px #17c47c,
+      0 0 50px #17c47c,
+      0 0 200px #17c47c;
+  }
+  50% {
+    background-color: #57e6aa;
+    box-shadow:
+      0 0 5px #57e6aa,
+      0 0 25px #57e6aa,
+      0 0 50px #57e6aa,
+      0 0 200px #57e6aa;
+  }
+}
+
+.copyButton.copied {
+  background-color: #ee853f;
+  animation: copiedBlink 3s infinite linear;
+}
+
+@keyframes copiedBlink {
+  0%, 100% {
+    background-color: #ee853f;
+    box-shadow:
+      0 0 5px #ee853f,
+      0 0 25px #ee853f,
+      0 0 50px #ee853f,
+      0 0 200px #ee853f;
+  }
+  50% {
+    background-color: #ffaf46;
+    box-shadow:
+      0 0 5px #ffaf46,
+      0 0 25px #ffaf46,
+      0 0 50px #ffaf46,
+      0 0 200px #ffaf46;
+  }
+}
+
+/* Desktop Responsive Design */
+@media screen and (min-width: 1000px) {
+  .title {
+    font-size: 3rem;
+  }
+  
+  .etrContent {
+    margin: 0 2rem;
+  }
+  
+  .etrContent legend {
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  
+  .etrContent label {
+    font-size: 1.2rem;
+  }
+  
+  .etrContent li, 
+  .etrContent p {
+    line-height: 2rem;
+    font-size: 1.3rem;
+  }
+  
+  .leftColumn {
+    min-width: 180px;
+  }
+  
+  .leftColumn li,
+  .rightColumn li {
+    line-height: 2rem;
+    font-size: 1.3rem;
+  }
+  
+  .copyButton {
+    position: relative;
+    width: 15%;
+    display: flex;
+    border-radius: 1rem;
+    margin: auto;
+    margin-bottom: 1rem;
+    justify-content: center;
+    align-items: center;
+    height: 4.5rem;
+    background-color: rgba(70, 129, 244, 0.85);
+    color: white;
+    font-size: 2rem;
+    border: none;
+  }
+  
+  .etrContent textarea {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile Responsive Design */
+@media screen and (max-width: 768px) {
+  .bulletinDataContainer {
+    display: block;
+  }
+  
+  .leftColumn {
+    display: none; /* Hide the separate timestamp column on mobile */
+  }
+  
+  .rightColumn li {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    padding: 0.8rem;
+    background-color: rgba(63, 92, 255, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid rgb(63, 92, 255);
+    position: relative;
+  }
+  
+  .rightColumn li::before {
+    content: attr(data-timestamp);
+    display: block;
+    color: rgb(196, 59, 59);
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    opacity: 0.9;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .copyButton {
+    font-size: 1.8rem;
+    height: 60px;
+  }
+}
+
+/* Very Small Mobile */
+@media screen and (max-width: 480px) {
+  .etrContent {
+    padding: 0.5rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .leftColumn li {
+    font-size: 0.7rem;
+    margin-right: 0.5rem;
+    padding: 0.1rem 0.3rem;
+  }
+  
+  .rightColumn li {
+    font-size: 0.8rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .copyButton {
+    font-size: 1.5rem;
+    height: 50px;
+  }
+}
