@@ -154,24 +154,24 @@ export const getEmployeeById = (id) => {
 // Create approved users with complete details
 export const approvedUsers = [
 	// KHH 高雄組員
-	{ id: "22119", password: "timmy910" }, //徐永成
-	{ id: "51892", password: "1015" }, //Eric
-	{ id: "55120", password: "0109" }, //楊子翎
-	{ id: "34011", password: "0521" }, //陳中榆
-	{ id: "51043", password: "JTVorGqJz0Kuov3"}, //牛仁鼎
-	{ id: "51837", password: "1207" }, //許惠芳
-	{ id: "56392", password: "Tu63O0pbKm97aM5" }, //許毓倫
-	{ id: "59161", password: "HXEZNz3JxGOlsOy" }, //王儀珺
-	{ id: "59230", password: "AfEQHKc05sEtfhS" }, //葉蓉婷
-	{ id: "59822", password: "0328" }, //郭惟歆
+	{ id: "22119", password: "timmy910", accessLevel: 50 }, //徐永成
+	{ id: "51892", password: "Theone190321", accessLevel: 99 }, //Eric
+	{ id: "55120", password: "191015", accessLevel: 80 }, //楊子翎
+	{ id: "34011", password: "evita0521", accessLevel: 2 }, //陳中榆
+	{ id: "51043", password: "JTVorGqJz0Kuov3", accessLevel: 1 }, //牛仁鼎
+	{ id: "51837", password: "emily1207", accessLevel: 2 }, //許惠芳
+	{ id: "56392", password: "Tu63O0pbKm97aM5", accessLevel: 1 }, //許毓倫
+	{ id: "59161", password: "HXEZNz3JxGOlsOy", accessLevel: 1 }, //王儀珺
+	{ id: "59230", password: "AfEQHKc05sEtfhS", accessLevel: 1 }, //葉蓉婷
+	{ id: "59822", password: "ws0328", accessLevel: 2 }, //郭惟歆
 	// TSA 台北組員
-	{ id: "21986", password: "gZMg5NJ8hB3AM9c" }, //羅翔鴻
-	{ id: "22055", password: "sXVGgW64M24QScn" }, //李懿婷
-	{ id: "30444", password: "0727" }, //徐慧真
+	{ id: "21986", password: "gZMg5NJ8hB3AM9c", accessLevel: 1 }, //羅翔鴻
+	{ id: "22055", password: "sXVGgW64M24QScn", accessLevel: 1 }, //李懿婷
+	{ id: "30444", password: "vicky0727", accessLevel: 2 }, //徐慧真
 	// RMQ 台中組員
-	{ id: "51740", password: "1101" }, //郭幸甄
-	{ id: "51791", password: "0429" }, //何思薇
-	{ id: "55047", password: "abMCS18VzjEqb2R" }, //顏子瑄
+	{ id: "51740", password: "ellen1101", accessLevel: 2 }, //郭幸甄
+	{ id: "51791", password: "sasha0429", accessLevel: 2 }, //何思薇
+	{ id: "55047", password: "abMCS18VzjEqb2R", accessLevel: 1 }, //顏子瑄
 ]
 	.map(user => {
 	const employee = getEmployeeById(user.id);
@@ -179,7 +179,8 @@ export const approvedUsers = [
 		...user,
 		name: employee?.name || 'Unknown',
 		rank: employee?.rank || 'Unknown',
-		base: employee?.base || 'Unknown'
+		base: employee?.base || 'Unknown',
+		accessLevel: typeof user.accessLevel === 'number' ? user.accessLevel : 1
 	};
 });
 

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap');
 
 :root {
 	--tabColor1: #219ebc;
@@ -49,9 +50,16 @@ form {
 
 .login > h1 {
 	text-align: center;
-	font-size: 2.2rem;
+	font-size: 11rem;
+	font-family: "Zhi Mang Xing";
 	color: white;
-	margin-bottom: 0.7rem;
+	margin-bottom: 0.7rem;	
+}
+
+@media (max-width: 400px) {
+	.login > h1 {
+		font-size: 9rem;
+	}
 }
 
 .login > button {
@@ -199,8 +207,6 @@ nav {
 }
 
 .user-avatar {
-	width: 2.5rem;
-	height: 2.5rem;
 	border-radius: 50%;
 	background-color: rgba(255, 255, 255, 0.2);
 	display: flex;
@@ -1851,13 +1857,7 @@ nav {
 	.drawer-user-info {
 		gap: 0.5rem;
 	}
-	
-	.user-avatar {
-		width: 2rem;
-		height: 2rem;
-		font-size: 1rem;
-	}
-	
+
 	.user-name {
 		font-size: 1rem;
 	}
@@ -1865,4 +1865,335 @@ nav {
 	.user-meta {
 		font-size: 0.75rem;
 	}
+}
+
+/* User Avatar Container with Level Badge */
+.user-avatar-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+}
+
+.user-avatar {
+	width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.user-level-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.user-level {
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 2px;
+    opacity: 0.8;
+}
+
+/* Menu Item States */
+.drawer-menu-item.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: transparent !important;
+}
+
+.drawer-menu-item.disabled:hover {
+    background-color: #f9fafb !important;
+    transform: none;
+}
+
+.drawer-menu-item:not(.disabled):hover {
+    background-color: #f3f4f6;
+    transform: translateX(4px);
+}
+
+/* Access Level Required Text */
+.access-level-required {
+    font-size: 10px;
+    color: #ef4444;
+    font-weight: 500;
+    margin-left: 8px;
+    opacity: 0.8;
+}
+
+/* Access Denied Icon */
+.access-denied-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    opacity: 0.5;
+}
+
+/* Menu Item Content Adjustments */
+.menu-item-content {
+    flex: 1;
+    text-align: left;
+}
+
+.menu-item-title {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.menu-item-description {
+    font-size: 12px;
+    opacity: 0.7;
+    line-height: 1.3;
+}
+
+/* Menu Item Icon */
+.menu-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    transition: all 0.2s ease;
+}
+
+/* Active Menu Item Indicator */
+.menu-item-indicator {
+    width: 3px;
+    height: 24px;
+    background-color: currentColor;
+    border-radius: 2px;
+    margin-left: 8px;
+}
+
+/* Drawer Menu Item Base */
+.drawer-menu-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+.drawer-menu-item.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+/* User Avatar Container with Level Badge */
+.user-avatar-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.user-level-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.user-level {
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 2px;
+    opacity: 0.8;
+}
+
+/* Menu Item Title Container */
+.menu-item-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Menu Item States */
+.drawer-menu-item.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: transparent !important;
+}
+
+.drawer-menu-item.disabled:hover {
+    background-color: #f9fafb !important;
+    transform: none;
+}
+
+.drawer-menu-item:not(.disabled):hover {
+    background-color: #f3f4f6;
+    transform: translateX(4px);
+}
+
+/* Access Level Required Text */
+.access-level-required {
+    font-size: 10px;
+    color: #ef4444;
+    font-weight: 500;
+    margin-top: 2px;
+    opacity: 0.8;
+    line-height: 1.2;
+}
+
+/* Access Denied Icon */
+.access-denied-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    opacity: 0.5;
+}
+
+/* Menu Item Content Adjustments */
+.menu-item-content {
+    flex: 1;
+    text-align: left;
+}
+
+.menu-item-title {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.menu-item-description {
+    font-size: 12px;
+    opacity: 0.7;
+    line-height: 1.3;
+}
+
+/* Menu Item Icon */
+.menu-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    transition: all 0.2s ease;
+}
+
+/* Active Menu Item Indicator */
+.menu-item-indicator {
+    width: 3px;
+    height: 24px;
+    background-color: currentColor;
+    border-radius: 2px;
+    margin-left: 8px;
+}
+
+/* Drawer Menu Item Base */
+.drawer-menu-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+.drawer-menu-item.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+/* User Details Section */
+.user-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.user-meta {
+    font-size: 14px;
+    color: #d4d4d4;
+    line-height: 1.3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .user-avatar {
+        /* width: 4rem;
+        height: 4rem; */
+        font-size: 16px;
+    }
+    
+    .user-level-badge {
+        width: 18px;
+        height: 18px;
+        font-size: 9px;
+    }
+    
+    .menu-item-title {
+        font-size: 13px;
+    }
+    
+    .menu-item-description {
+        font-size: 11px;
+    }
+    
+    .access-level-required {
+        font-size: 9px;
+        margin-top: 2px;
+    }
 }

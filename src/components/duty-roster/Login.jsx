@@ -17,12 +17,12 @@ const Login = ({ onLoginSuccess }) => {
 
         if (userExists) {
             toast.success("Login successful");
-            // Pass complete user data to parent component
             onLoginSuccess({
                 employeeID: userExists.id,
                 name: userExists.name,
                 rank: userExists.rank,
-                base: userExists.base
+                base: userExists.base,
+                accessLevel: userExists.accessLevel
             });
         } else {
             toast("你是哪根蔥?!", {icon: '🤨', duration: 3000,});
@@ -41,7 +41,7 @@ const Login = ({ onLoginSuccess }) => {
         <>
             <form onSubmit={handleLoginSubmit}>
                 <div className="login">
-                    <h1>豪神APP</h1>
+                    <h1>豪神</h1>
                     <div className="input">
                         <input
                             type="text"

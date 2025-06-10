@@ -73,7 +73,6 @@ export const patchUpdates = [
 "增加公告數量案件，無須人工修改數字",
 			]
 },
-
 {
 	date: "2025-06-08",
 	appName: " EIP系統",
@@ -82,6 +81,13 @@ export const patchUpdates = [
 			"把分散的APP合併，增加抽屜式導覽"
 			]
 },
-
+{
+	date: "2025-06-08",
+	appName: " EIP系統",
+	updateInfo: 
+		[
+			"增加使用者權限等級"
+			]
+},
 
 ]
