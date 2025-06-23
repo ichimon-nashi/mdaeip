@@ -1,4 +1,9 @@
-/* BusinessClass Component Styles - CSS Module */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	/* border: 0.1px dashed red; */
+}
 
 .businessClassContainer {
 	min-height: 100vh;
@@ -55,9 +60,69 @@
 	margin: 0;
 }
 
-.headerSubtitle {
-	margin: 8px 0 0 0;
+/* Tray Toggle Styles */
+.headerContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+.trayTypeToggle {
+	display: flex;
+	align-items: center;
+	min-width: max-content;
+	gap: 1rem;
+	margin-bottom: 0.5rem;
+}
+
+.trayTypeLabel {
+	font-weight: 600;
+	color: white;
+	font-size: 1rem;
 	opacity: 0.9;
+}
+
+.toggleButtons {
+	display: flex;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.toggleButton {
+	padding: 0.5rem 1.5rem;
+	border: none;
+	min-width: max-content;
+	margin: 0 0.5rem;
+	background-color: transparent;
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 500;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.toggleButton:last-child {
+	border-right: none;
+}
+
+.toggleButton:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: white;
+}
+
+.toggleButton.active {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #477df1;
+	font-weight: 600;
+}
+
+.toggleButton.active:hover {
+	background-color: white;
+	color: #477df1;
 }
 
 .mainContent {
@@ -191,12 +256,13 @@
 	background-color: #b91c1c;
 }
 
-.toggleButton {
+/* Note: This toggleButton style is for the show/hide correct positions button */
+.toggleButton:not(.active):not(:hover) {
 	background-color: #ca8a04;
 	color: white;
 }
 
-.toggleButton:hover {
+.toggleButton:not(.active):hover {
 	background-color: #a16207;
 }
 
@@ -349,6 +415,24 @@
 		font-size: 14px;
 	}
 
+	/* Responsive tray toggle adjustments */
+	.headerContent {
+		gap: 0.75rem;
+	}
+	
+	.trayTypeToggle {
+		gap: 0.75rem;
+	}
+	
+	.toggleButton {
+		padding: 0.4rem 1.2rem;
+		font-size: 0.8rem;
+	}
+	
+	.trayTypeLabel {
+		font-size: 0.9rem;
+	}
+
 	.mainContent {
 		padding: 12px;
 		overflow: hidden;
@@ -416,6 +500,26 @@
 		font-size: 11px;
 	}
 
+	/* Responsive tray toggle adjustments for small screens */
+	.headerContent {
+		gap: 0.5rem;
+	}
+	
+	.trayTypeToggle {
+		flex-direction: column;
+		gap: 0.4rem;
+		text-align: center;
+	}
+	
+	.toggleButton {
+		padding: 0.3rem 1rem;
+		font-size: 0.75rem;
+	}
+	
+	.trayTypeLabel {
+		font-size: 0.8rem;
+	}
+
 	.mainContent {
 		padding: 6px;
 		height: calc(100vh - 100px);
@@ -478,5 +582,38 @@
 	.placedItem {
 		max-width: calc(100vw - 20px);
 		max-height: calc(70vh - 15px);
+	}
+}
+
+/* Additional mobile responsiveness for tray toggle */
+@media (max-width: 768px) {
+	.trayTypeToggle {
+		flex-direction: column;
+		gap: 0.5rem;
+		text-align: center;
+	}
+	
+	.toggleButton {
+		padding: 0.4rem 1.2rem;
+		font-size: 0.8rem;
+	}
+	
+	.trayTypeLabel {
+		font-size: 0.9rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.trayTypeToggle {
+		gap: 0.4rem;
+	}
+	
+	.toggleButton {
+		padding: 0.3rem 1rem;
+		font-size: 0.75rem;
+	}
+	
+	.trayTypeLabel {
+		font-size: 0.8rem;
 	}
 }

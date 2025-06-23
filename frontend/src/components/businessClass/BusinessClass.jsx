@@ -13,250 +13,218 @@ import winePlaceholder from "./assets/wine-placeholder.png";
 import utensilPlacholder from "./assets/utensil-placeholder.png";
 
 const BusinessClass = ({ userDetails, onLogout }) => {
-    // Device-specific configurations
-    const getDeviceConfig = () => {
+    // Base item configurations with percentage-based positioning
+    const getBaseItemConfig = (trayType = 'A') => {
         const width = window.innerWidth;
         const height = window.innerHeight;
-        
-        // Use the smaller dimension (height in landscape) for more accurate device detection
         const deviceSize = Math.min(width, height);
-        
-        // Also check for touch capability to distinguish between desktop and mobile devices
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
+        let scaleFactor;
         if (deviceSize >= 900 && !isTouchDevice) {
-            // Desktop - large screens without touch
-            return {
-                'main-plate': {
-                    name: 'Main Plate',
-                    color: '#e5e7eb',
-                    size: { width: '20rem', height: '14rem' },
-                    traySize: { width: '4rem', height: '2.8rem' },
-                    correctPosition: { x: '38.25rem', y: '14.06rem' }, // 612px / 16 = 38.25rem, 225px / 16 = 14.06rem
-                    image: mainPlaceholder
-                },
-                'salad-plate': {
-                    name: 'Salad Plate',
-                    color: '#fecaca',
-                    size: { width: '12.5rem', height: '12.5rem' },
-                    traySize: { width: '2.5rem', height: '2.5rem' },
-                    correctPosition: { x: '23.75rem', y: '1.56rem' }, // 380px / 16 = 23.75rem, 25px / 16 = 1.56rem
-                    image: saladPlaceholder
-                },
-                'fruit-bowl': {
-                    name: 'Fruit Bowl',
-                    color: '#fecaca',
-                    size: { width: '12.5rem', height: '12.5rem' },
-                    traySize: { width: '2.5rem', height: '2.5rem' },
-                    correctPosition: { x: '42.81rem', y: '1.56rem' }, // 685px / 16 = 42.81rem, 25px / 16 = 1.56rem
-                    image: fruitPlaceholder
-                },
-                'bread-plate': {
-                    name: 'Bread Plate',
-                    color: '#fef3c7',
-                    size: { width: '14rem', height: '14rem' },
-                    traySize: { width: '2.8rem', height: '2.8rem' },
-                    correctPosition: { x: '23.75rem', y: '14.06rem' }, // 380px / 16 = 23.75rem, 225px / 16 = 14.06rem
-                    image: breadPlaceholder
-                },
-                'utensils': {
-                    name: 'Utensils',
-                    color: '#d1d5db',
-                    size: { width: '6rem', height: '16rem' },
-                    traySize: { width: '1.2rem', height: '3.2rem' },
-                    correctPosition: { x: '58.75rem', y: '12rem' }, // 940px / 16 = 58.75rem, 192px / 16 = 12rem
-                    image: utensilPlacholder
-                },
-                'water-glass': {
-                    name: 'Water Glass',
-                    color: '#dbeafe',
-                    size: { width: '4rem', height: '10rem' },
-                    traySize: { width: '0.8rem', height: '2rem' },
-                    correctPosition: { x: '55.94rem', y: '1.56rem' }, // 895px / 16 = 55.94rem, 25px / 16 = 1.56rem
-                    image: waterPlaceholder
-                },
-                'wine-glass': {
-                    name: 'Wine Glass',
-                    color: '#e9d5ff',
-                    size: { width: '4rem', height: '10rem' },
-                    traySize: { width: '0.8rem', height: '2rem' },
-                    correctPosition: { x: '60.63rem', y: '1.56rem' }, // 970px / 16 = 60.63rem, 25px / 16 = 1.56rem
-                    image: winePlaceholder
-                },
-                'salt-pepper': {
-                    name: 'Salt & Pepper',
-                    color: '#9ca3af',
-                    size: { width: '5rem', height: '5rem' },
-                    traySize: { width: '1rem', height: '1rem' },
-                    correctPosition: { x: '37.19rem', y: '3.13rem' }, // 595px / 16 = 37.19rem, 50px / 16 = 3.13rem
-                    image: saltpepperPlaceholder
-                },
-                'butter-dish': {
-                    name: 'Butter Dish',
-                    color: '#fecaca',
-                    size: { width: '6rem', height: '4rem' },
-                    traySize: { width: '1.2rem', height: '0.8rem' },
-                    correctPosition: { x: '36.56rem', y: '9.06rem' }, // 585px / 16 = 36.56rem, 145px / 16 = 9.06rem
-                    image: butterPlaceholder
-                },
-            };
+            scaleFactor = 1; // Desktop
         } else if (width >= 768) {
-            // Tablet - scale positions proportionally (75% of desktop)
-            return {
-                'main-plate': {
-                    name: 'Main Plate',
-                    color: '#e5e7eb',
-                    size: { width: '15rem', height: '10.5rem' },
-                    traySize: { width: '3rem', height: '2.1rem' },
-                    correctPosition: { x: '25.75rem', y: '17.63rem' }, // 75% of desktop positions
-                    image: mainPlaceholder
-                },
-                'salad-plate': {
-                    name: 'Salad Plate',
-                    color: '#fecaca',
-                    size: { width: '9.4rem', height: '9.4rem' },
-                    traySize: { width: '1.9rem', height: '1.9rem' },
-                    correctPosition: { x: '17.81rem', y: '1.25rem' },
-                    image: saladPlaceholder
-                },
-                'fruit-bowl': {
-                    name: 'Fruit Bowl',
-                    color: '#fecaca',
-                    size: { width: '9.4rem', height: '9.4rem' },
-                    traySize: { width: '1.9rem', height: '1.9rem' },
-                    correctPosition: { x: '32.19rem', y: '1.25rem' },
-                    image: fruitPlaceholder
-                },
-                'bread-plate': {
-                    name: 'Bread Plate',
-                    color: '#fef3c7',
-                    size: { width: '11.5rem', height: '11.5rem' },
-                    traySize: { width: '2.1rem', height: '2.1rem' },
-                    correctPosition: { x: '12.81rem', y: '17.63rem' },
-                    image: breadPlaceholder
-                },
-                'utensils': {
-                    name: 'Utensils',
-                    color: '#d1d5db',
-                    size: { width: '4.5rem', height: '12rem' },
-                    traySize: { width: '0.9rem', height: '2.4rem' },
-                    correctPosition: { x: '44.06rem', y: '9rem' },
-                    image: utensilPlacholder
-                },
-                'water-glass': {
-                    name: 'Water Glass',
-                    color: '#dbeafe',
-                    size: { width: '3rem', height: '7.5rem' },
-                    traySize: { width: '0.6rem', height: '1.5rem' },
-                    correctPosition: { x: '41.94rem', y: '1.25rem' },
-                    image: waterPlaceholder
-                },
-                'wine-glass': {
-                    name: 'Wine Glass',
-                    color: '#e9d5ff',
-                    size: { width: '3rem', height: '7.5rem' },
-                    traySize: { width: '0.6rem', height: '1.5rem' },
-                    correctPosition: { x: '45.5rem', y: '1.25rem' },
-                    image: winePlaceholder
-                },
-                'salt-pepper': {
-                    name: 'Salt & Pepper',
-                    color: '#9ca3af',
-                    size: { width: '3.8rem', height: '3.8rem' },
-                    traySize: { width: '0.8rem', height: '0.8rem' },
-                    correctPosition: { x: '27.88rem', y: '2.38rem' },
-                    image: saltpepperPlaceholder
-                },
-                'butter-dish': {
-                    name: 'Butter Dish',
-                    color: '#fecaca',
-                    size: { width: '4.5rem', height: '3rem' },
-                    traySize: { width: '0.9rem', height: '0.6rem' },
-                    correctPosition: { x: '27.44rem', y: '6.81rem' },
-                    image: butterPlaceholder
-                },
-            };
+            scaleFactor = 0.75; // Tablet
         } else {
-            // Mobile - scale positions proportionally (50% of desktop)
-            return {
+            scaleFactor = 0.1; // Mobile
+        }
+        
+        // Define positions as percentages of the drop zone for each tray type
+        const trayConfigurations = {
+            'A': {
+                'main-plate': { xPercent: 52, yPercent: 73 },
+                'salad-plate': { xPercent: 32.5, yPercent: 27 },
+                'fruit-bowl': { xPercent: 52.5, yPercent: 27 },
+                'bread-plate': { xPercent: 32.5, yPercent: 73 },
+                'utensils': { xPercent: 68, yPercent: 65 },
+                'water-glass': { xPercent: 66, yPercent: 27 },
+                'wine-glass': { xPercent: 72, yPercent: 27 },
+                'salt-pepper': { xPercent: 42.5, yPercent: 17 },
+                'butter-dish': { xPercent: 42.5, yPercent: 34 },
+            },
+            'B': {
+                'main-plate': { xPercent: 45, yPercent: 45 },
+                'appetizer-plate': { xPercent: 25, yPercent: 12 },
+                'soup-bowl': { xPercent: 70, yPercent: 12 },
+                'bread-plate': { xPercent: 15, yPercent: 45 },
+                'dessert-plate': { xPercent: 75, yPercent: 45 },
+                'utensils': { xPercent: 88, yPercent: 35 },
+                'water-glass': { xPercent: 65, yPercent: 8 },
+                'wine-glass': { xPercent: 78, yPercent: 8 },
+                'napkin': { xPercent: 12, yPercent: 25 },
+                'condiment-tray': { xPercent: 52, yPercent: 25 },
+            }
+        };
+        
+        const basePositions = trayConfigurations[trayType];
+        
+        // Item configurations for both tray types
+        const itemConfigurations = {
+            'A': {
                 'main-plate': {
                     name: 'Main Plate',
                     color: '#e5e7eb',
-                    size: { width: '10rem', height: '7rem' },
-                    traySize: { width: '2rem', height: '1.4rem' },
-                    correctPosition: { x: '19.13rem', y: '7.06rem' }, // 50% of desktop positions
+                    size: { width: `${17 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${4 * scaleFactor}rem`, height: `${2.8 * scaleFactor}rem` },
+                    positionPercent: basePositions['main-plate'],
                     image: mainPlaceholder
                 },
                 'salad-plate': {
                     name: 'Salad Plate',
                     color: '#fecaca',
-                    size: { width: '6.3rem', height: '6.3rem' },
-                    traySize: { width: '1.3rem', height: '1.3rem' },
-                    correctPosition: { x: '11.88rem', y: '0.81rem' },
+                    size: { width: `${10 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${2.5 * scaleFactor}rem`, height: `${2.5 * scaleFactor}rem` },
+                    positionPercent: basePositions['salad-plate'],
                     image: saladPlaceholder
                 },
                 'fruit-bowl': {
                     name: 'Fruit Bowl',
                     color: '#fecaca',
-                    size: { width: '6.3rem', height: '6.3rem' },
-                    traySize: { width: '1.3rem', height: '1.3rem' },
-                    correctPosition: { x: '21.44rem', y: '0.81rem' },
+                    size: { width: `${10 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${2.5 * scaleFactor}rem`, height: `${2.5 * scaleFactor}rem` },
+                    positionPercent: basePositions['fruit-bowl'],
                     image: fruitPlaceholder
                 },
                 'bread-plate': {
                     name: 'Bread Plate',
                     color: '#fef3c7',
-                    size: { width: '5rem', height: '5rem' },
-                    traySize: { width: '1.4rem', height: '1.4rem' },
-                    correctPosition: { x: '11.88rem', y: '7.06rem' },
+                    size: { width: `${10 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${2.8 * scaleFactor}rem`, height: `${2.8 * scaleFactor}rem` },
+                    positionPercent: basePositions['bread-plate'],
                     image: breadPlaceholder
                 },
                 'utensils': {
                     name: 'Utensils',
                     color: '#d1d5db',
-                    size: { width: '3rem', height: '8rem' },
-                    traySize: { width: '0.6rem', height: '1.6rem' },
-                    correctPosition: { x: '29.38rem', y: '6rem' },
+                    size: { width: `${4 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${1.2 * scaleFactor}rem`, height: `${3.2 * scaleFactor}rem` },
+                    positionPercent: basePositions['utensils'],
                     image: utensilPlacholder
                 },
                 'water-glass': {
                     name: 'Water Glass',
                     color: '#dbeafe',
-                    size: { width: '2rem', height: '5rem' },
-                    traySize: { width: '0.4rem', height: '1rem' },
-                    correctPosition: { x: '28rem', y: '0.81rem' },
+                    size: { width: `${4 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${0.8 * scaleFactor}rem`, height: `${2 * scaleFactor}rem` },
+                    positionPercent: basePositions['water-glass'],
                     image: waterPlaceholder
                 },
                 'wine-glass': {
                     name: 'Wine Glass',
                     color: '#e9d5ff',
-                    size: { width: '2rem', height: '5rem' },
-                    traySize: { width: '0.4rem', height: '1rem' },
-                    correctPosition: { x: '30.31rem', y: '0.81rem' },
+                    size: { width: `${4 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${0.8 * scaleFactor}rem`, height: `${2 * scaleFactor}rem` },
+                    positionPercent: basePositions['wine-glass'],
                     image: winePlaceholder
                 },
                 'salt-pepper': {
                     name: 'Salt & Pepper',
                     color: '#9ca3af',
-                    size: { width: '2.5rem', height: '2.5rem' },
-                    traySize: { width: '0.5rem', height: '0.5rem' },
-                    correctPosition: { x: '18.63rem', y: '1.56rem' },
+                    size: { width: `${4 * scaleFactor}rem`, height: `${4 * scaleFactor}rem` },
+                    traySize: { width: `${1 * scaleFactor}rem`, height: `${1 * scaleFactor}rem` },
+                    positionPercent: basePositions['salt-pepper'],
                     image: saltpepperPlaceholder
                 },
                 'butter-dish': {
                     name: 'Butter Dish',
                     color: '#fecaca',
-                    size: { width: '3rem', height: '2rem' },
-                    traySize: { width: '0.6rem', height: '0.4rem' },
-                    correctPosition: { x: '18.31rem', y: '4.56rem' },
+                    size: { width: `${4 * scaleFactor}rem`, height: `${4 * scaleFactor}rem` },
+                    traySize: { width: `${1.2 * scaleFactor}rem`, height: `${0.8 * scaleFactor}rem` },
+                    positionPercent: basePositions['butter-dish'],
                     image: butterPlaceholder
                 },
-            };
-        }
+            },
+            'B': {
+                'main-plate': {
+                    name: 'Main Plate',
+                    color: '#e5e7eb',
+                    size: { width: `${18 * scaleFactor}rem`, height: `${12 * scaleFactor}rem` },
+                    traySize: { width: `${3.6 * scaleFactor}rem`, height: `${2.4 * scaleFactor}rem` },
+                    positionPercent: basePositions['main-plate'],
+                    image: mainPlaceholder
+                },
+                'appetizer-plate': {
+                    name: 'Appetizer Plate',
+                    color: '#fed7d7',
+                    size: { width: `${10 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${2 * scaleFactor}rem`, height: `${2 * scaleFactor}rem` },
+                    positionPercent: basePositions['appetizer-plate'],
+                    image: saladPlaceholder
+                },
+                'soup-bowl': {
+                    name: 'Soup Bowl',
+                    color: '#fef5e7',
+                    size: { width: `${12 * scaleFactor}rem`, height: `${12 * scaleFactor}rem` },
+                    traySize: { width: `${2.4 * scaleFactor}rem`, height: `${2.4 * scaleFactor}rem` },
+                    positionPercent: basePositions['soup-bowl'],
+                    image: fruitPlaceholder
+                },
+                'bread-plate': {
+                    name: 'Bread Plate',
+                    color: '#fef3c7',
+                    size: { width: `${12 * scaleFactor}rem`, height: `${12 * scaleFactor}rem` },
+                    traySize: { width: `${2.4 * scaleFactor}rem`, height: `${2.4 * scaleFactor}rem` },
+                    positionPercent: basePositions['bread-plate'],
+                    image: breadPlaceholder
+                },
+                'dessert-plate': {
+                    name: 'Dessert Plate',
+                    color: '#e0e7ff',
+                    size: { width: `${10 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${2 * scaleFactor}rem`, height: `${2 * scaleFactor}rem` },
+                    positionPercent: basePositions['dessert-plate'],
+                    image: saladPlaceholder
+                },
+                'utensils': {
+                    name: 'Utensils',
+                    color: '#d1d5db',
+                    size: { width: `${6 * scaleFactor}rem`, height: `${16 * scaleFactor}rem` },
+                    traySize: { width: `${1.2 * scaleFactor}rem`, height: `${3.2 * scaleFactor}rem` },
+                    positionPercent: basePositions['utensils'],
+                    image: utensilPlacholder
+                },
+                'water-glass': {
+                    name: 'Water Glass',
+                    color: '#dbeafe',
+                    size: { width: `${4 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${0.8 * scaleFactor}rem`, height: `${2 * scaleFactor}rem` },
+                    positionPercent: basePositions['water-glass'],
+                    image: waterPlaceholder
+                },
+                'wine-glass': {
+                    name: 'Wine Glass',
+                    color: '#e9d5ff',
+                    size: { width: `${4 * scaleFactor}rem`, height: `${10 * scaleFactor}rem` },
+                    traySize: { width: `${0.8 * scaleFactor}rem`, height: `${2 * scaleFactor}rem` },
+                    positionPercent: basePositions['wine-glass'],
+                    image: winePlaceholder
+                },
+                'napkin': {
+                    name: 'Napkin',
+                    color: '#f0f9ff',
+                    size: { width: `${8 * scaleFactor}rem`, height: `${6 * scaleFactor}rem` },
+                    traySize: { width: `${1.6 * scaleFactor}rem`, height: `${1.2 * scaleFactor}rem` },
+                    positionPercent: basePositions['napkin'],
+                    image: saltpepperPlaceholder
+                },
+                'condiment-tray': {
+                    name: 'Condiment Tray',
+                    color: '#f7fafc',
+                    size: { width: `${8 * scaleFactor}rem`, height: `${5 * scaleFactor}rem` },
+                    traySize: { width: `${1.6 * scaleFactor}rem`, height: `${1 * scaleFactor}rem` },
+                    positionPercent: basePositions['condiment-tray'],
+                    image: butterPlaceholder
+                },
+            }
+        };
+        
+        return itemConfigurations[trayType];
     };
 
-    const [ITEMS_CONFIG, setItemsConfig] = useState(getDeviceConfig());
+    const [trayType, setTrayType] = useState('A');
+    const [ITEMS_CONFIG, setItemsConfig] = useState(getBaseItemConfig('A'));
     const [placedItems, setPlacedItems] = useState({});
+    const [correctPositions, setCorrectPositions] = useState({});
     const [draggedItem, setDraggedItem] = useState(null);
     const [feedback, setFeedback] = useState('');
     const [showCorrectPositions, setShowCorrectPositions] = useState(false);
@@ -266,6 +234,33 @@ const BusinessClass = ({ userDetails, onLogout }) => {
     const dropZoneRef = useRef(null);
     const tableSurfaceRef = useRef(null);
 
+    // Calculate correct positions based on current drop zone size
+    const updateCorrectPositions = () => {
+        if (!dropZoneRef.current) return;
+        
+        const dropZoneRect = dropZoneRef.current.getBoundingClientRect();
+        const newCorrectPositions = {};
+        
+        Object.entries(ITEMS_CONFIG).forEach(([itemId, config]) => {
+            const { xPercent, yPercent } = config.positionPercent;
+            
+            // Calculate position in pixels based on current drop zone size
+            const x = (dropZoneRect.width * xPercent) / 100;
+            const y = (dropZoneRect.height * yPercent) / 100;
+            
+            // Adjust for item size (center the item on the target position)
+            const itemWidthPx = parseFloat(config.size.width) * 16;
+            const itemHeightPx = parseFloat(config.size.height) * 16;
+            
+            newCorrectPositions[itemId] = {
+                x: x - (itemWidthPx / 2),
+                y: y - (itemHeightPx / 2)
+            };
+        });
+        
+        setCorrectPositions(newCorrectPositions);
+    };
+
     // Check orientation on mount and resize
     useEffect(() => {
         const checkOrientation = () => {
@@ -273,7 +268,10 @@ const BusinessClass = ({ userDetails, onLogout }) => {
             setIsLandscape(isLandscapeMode);
             
             // Update config when window resizes
-            setItemsConfig(getDeviceConfig());
+            setItemsConfig(getBaseItemConfig(trayType));
+            
+            // Delay position calculation to ensure DOM has updated
+            setTimeout(updateCorrectPositions, 100);
         };
 
         checkOrientation();
@@ -284,7 +282,14 @@ const BusinessClass = ({ userDetails, onLogout }) => {
             window.removeEventListener('resize', checkOrientation);
             window.removeEventListener('orientationchange', checkOrientation);
         };
-    }, []);
+    }, [trayType]);
+
+    // Update correct positions when drop zone is ready
+    useEffect(() => {
+        if (dropZoneRef.current) {
+            updateCorrectPositions();
+        }
+    }, [dropZoneRef.current, ITEMS_CONFIG]);
 
     const handleDragStart = (e, itemId) => {
         setDraggedItem(itemId);
@@ -435,20 +440,16 @@ const BusinessClass = ({ userDetails, onLogout }) => {
 
         Object.keys(ITEMS_CONFIG).forEach(itemId => {
             const placedPos = placedItems[itemId];
-            const correctPos = ITEMS_CONFIG[itemId].correctPosition;
+            const correctPos = correctPositions[itemId];
 
             if (!placedPos) {
                 results.push(`❌ ${ITEMS_CONFIG[itemId].name}: Not placed`);
+            } else if (!correctPos) {
+                results.push(`⚠️ ${ITEMS_CONFIG[itemId].name}: Position not calculated`);
             } else {
-                // Convert rem positions to pixels for comparison
-                const correctPosPixels = {
-                    x: parseFloat(correctPos.x) * 16,
-                    y: parseFloat(correctPos.y) * 16
-                };
-
-                const distance = calculateDistance(placedPos, correctPosPixels);
-                const xDiff = Math.round(placedPos.x - correctPosPixels.x);
-                const yDiff = Math.round(placedPos.y - correctPosPixels.y);
+                const distance = calculateDistance(placedPos, correctPos);
+                const xDiff = Math.round(placedPos.x - correctPos.x);
+                const yDiff = Math.round(placedPos.y - correctPos.y);
 
                 if (distance <= tolerance) {
                     results.push(`✅ ${ITEMS_CONFIG[itemId].name}: Correct!`);
@@ -475,6 +476,18 @@ const BusinessClass = ({ userDetails, onLogout }) => {
 
     const toggleCorrectPositions = () => {
         setShowCorrectPositions(!showCorrectPositions);
+    };
+
+    const handleTrayTypeChange = (newTrayType) => {
+        setTrayType(newTrayType);
+        setItemsConfig(getBaseItemConfig(newTrayType));
+        // Reset all placements when switching tray types
+        setPlacedItems({});
+        setCorrectPositions({});
+        setFeedback('');
+        setShowCorrectPositions(false);
+        // Delay position calculation to ensure DOM has updated
+        setTimeout(updateCorrectPositions, 100);
     };
 
     // Show rotation prompt for portrait mode
@@ -514,8 +527,25 @@ const BusinessClass = ({ userDetails, onLogout }) => {
             <div className={styles.container}>
                 {/* Header */}
                 <div className={styles.header}>
-                    {/* <h1 className={styles.headerTitle}>豪神BC擺盤APP</h1> */}
-                    <p className={styles.headerSubtitle}>Drag items from items tray to Table Surface</p>
+                    <div className={styles.headerContent}>
+                        <div className={styles.trayTypeToggle}>
+                            <span className={styles.trayTypeLabel}>Tray Type:</span>
+                            <div className={styles.toggleButtons}>
+                                <button
+                                    onClick={() => handleTrayTypeChange('A')}
+                                    className={`${styles.toggleButton} ${trayType === 'A' ? styles.active : ''}`}
+                                >
+                                    Type A
+                                </button>
+                                <button
+                                    onClick={() => handleTrayTypeChange('B')}
+                                    className={`${styles.toggleButton} ${trayType === 'B' ? styles.active : ''}`}
+                                >
+                                    Type B
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Main Content Area */}
@@ -537,20 +567,23 @@ const BusinessClass = ({ userDetails, onLogout }) => {
                             </div>
 
                             {/* Show correct positions when toggled */}
-                            {showCorrectPositions && Object.entries(ITEMS_CONFIG).map(([itemId, config]) => (
-                                <div
-                                    key={`correct-${itemId}`}
-                                    className={styles.correctPosition}
-                                    style={{
-                                        left: config.correctPosition.x,
-                                        top: config.correctPosition.y,
-                                        width: config.size.width,
-                                        height: config.size.height,
-                                    }}
-                                >
-                                    {config.name}
-                                </div>
-                            ))}
+                            {showCorrectPositions && Object.entries(correctPositions).map(([itemId, position]) => {
+                                const config = ITEMS_CONFIG[itemId];
+                                return (
+                                    <div
+                                        key={`correct-${itemId}`}
+                                        className={styles.correctPosition}
+                                        style={{
+                                            left: `${position.x}px`,
+                                            top: `${position.y}px`,
+                                            width: config.size.width,
+                                            height: config.size.height,
+                                        }}
+                                    >
+                                        {config.name}
+                                    </div>
+                                );
+                            })}
 
                             {/* Placed Items */}
                             {Object.entries(placedItems).map(([itemId, position]) => {
@@ -617,7 +650,7 @@ const BusinessClass = ({ userDetails, onLogout }) => {
 
                     {/* Items Tray */}
                     <div className={styles.itemsTray}>
-                        <h3 className={styles.trayTitle}>Items Tray 托盤物品</h3>
+                        <h3 className={styles.trayTitle}>Items Tray 托盤物品 - Type {trayType}</h3>
                         <div className={styles.trayItems}>
                             {Object.entries(ITEMS_CONFIG).map(([itemId, config]) => {
                                 const isPlaced = placedItems[itemId];
