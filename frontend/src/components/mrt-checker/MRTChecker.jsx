@@ -38,6 +38,19 @@ const MRTChecker = ({ userDetails, onLogout }) => {
         return () => window.removeEventListener('resize', detectTouchDevice)
     }, [])
 
+const generateRandomHexColor = () => {
+  // Generate a random number between 0 and 16777215 (0xFFFFFF in decimal)
+  // Convert it to a hexadecimal string
+  let hexColor = Math.floor(Math.random() * 16777215).toString(16);
+
+  // Pad the string with leading zeros if it's less than 6 characters long
+  // This ensures a valid 6-digit hex code
+  hexColor = hexColor.padStart(6, '0');
+
+  // Prepend '#' to form a complete CSS hex color code
+  return '#' + hexColor;
+};
+
     // Preset duties
     const presetDuties = [
         { id: 'recessday', code: '例', name: '例假', startTime: '', endTime: '', color: '#10B981', isRest: true },
@@ -391,36 +404,47 @@ const MRTChecker = ({ userDetails, onLogout }) => {
     }
 
     const handleScreenshot = async () => {
-        if (validationErrors.length > 0) return
-        
-        try {
-            const html2canvas = (await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js')).default
+    if (validationErrors.length > 0) return
+    
+    try {
+        // Load html2canvas from CDN if not already loaded
+        if (typeof window.html2canvas === 'undefined') {
+            const script = document.createElement('script')
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+            document.head.appendChild(script)
             
-            if (!rosterRef.current) return
-            
-            const filename = `${currentYear}年${currentMonth + 1}月預排班表-${userDetails?.name || '韓建豪'}.png`
-            
-            const canvas = await html2canvas(rosterRef.current, {
-                backgroundColor: '#ffffff',
-                scale: 2,
-                useCORS: true,
-                allowTaint: false,
-                logging: false
+            // Wait for script to load
+            await new Promise((resolve, reject) => {
+                script.onload = resolve
+                script.onerror = reject
             })
-            
-            const link = document.createElement('a')
-            link.download = filename
-            link.href = canvas.toDataURL('image/png')
-            
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-            
-        } catch (error) {
-            console.error('Screenshot failed:', error)
-            alert('截圖失敗，請重試')
         }
+        
+        if (!rosterRef.current) return
+        
+        const filename = `${currentYear}年${currentMonth + 1}月預排班表-${userDetails?.name || '無名'}.png`
+        
+        const canvas = await window.html2canvas(rosterRef.current, {
+            backgroundColor: '#ffffff',
+            scale: 2,
+            useCORS: true,
+            allowTaint: false,
+            logging: false
+        })
+        
+        const link = document.createElement('a')
+        link.download = filename
+        link.href = canvas.toDataURL('image/png')
+        
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        
+    } catch (error) {
+        console.error('Screenshot failed:', error)
+        alert('截圖失敗，請重試')
     }
+}
 
     useEffect(() => {
         const errors = validateRestRequirements()
@@ -458,7 +482,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
 
     const handleAddCustomDuty = () => {
         if (!newDuty.name || !newDuty.code) {
-            alert('請填寫任務名稱和代碼')
+            alert('請填寫任務名稱和說明')
             return
         }
 
@@ -468,7 +492,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
             name: newDuty.name,
             startTime: newDuty.startTime,
             endTime: newDuty.endTime,
-            color: '#6B7280',
+            color: generateRandomHexColor(),
             isCustom: true,
             isDuty: newDuty.startTime && newDuty.endTime ? true : false,
             isFlightDuty: newDuty.isFlightDuty
@@ -594,7 +618,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
         <div className="min-h-screen">
             <Navbar 
                 userDetails={userDetails} 
-                title="豪神休時檢視APP"
+                title="休時檢視系統"
                 onLogout={onLogout}
             />
             
@@ -672,7 +696,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
                                         className="add-duty-button"
                                     >
                                         <Plus size={16} />
-                                        Add custom Duty
+                                        增加自訂任務
                                     </button>
                                 </div>
                             </div>
@@ -728,7 +752,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
                                         onClick={() => setShowValidation(!showValidation)}
                                         className="validation-toggle"
                                     >
-                                        {showValidation ? 'Hide' : 'Show'} Details ({validationErrors.length})
+                                        {showValidation ? 'Hide Details 隱藏說明' : 'Show Details 顯示說明'} ({validationErrors.length})
                                     </button>
                                 </div>
                                 {showValidation && (
@@ -747,7 +771,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
                         {validationErrors.length === 0 && Object.keys(droppedItems).length > 0 && (
                             <div className="validation-success">
                                 <div className="success-indicator"></div>
-                                <span className="success-text">All rest time requirements satisfied</span>
+                                <span className="success-text">休時規定符合!</span>
                             </div>
                         )}
 
@@ -878,7 +902,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
                             
                             <div className="modal-form">
                                 <div className="form-group">
-                                    <label className="form-label">任務代碼 *</label>
+                                    <label className="form-label">任務名稱 *</label>
                                     <input
                                         type="text"
                                         value={newDuty.code}
@@ -889,13 +913,13 @@ const MRTChecker = ({ userDetails, onLogout }) => {
                                 </div>
                                 
                                 <div className="form-group">
-                                    <label className="form-label">任務名稱 *</label>
+                                    <label className="form-label">任務說明 *</label>
                                     <input
                                         type="text"
                                         value={newDuty.name}
                                         onChange={(e) => setNewDuty(prev => ({ ...prev, name: e.target.value }))}
                                         className="form-input"
-                                        placeholder="例: Training Session"
+                                        placeholder="例: 訓練"
                                     />
                                 </div>
                                 
@@ -930,7 +954,7 @@ const MRTChecker = ({ userDetails, onLogout }) => {
                                             className="form-checkbox"
                                         />
                                         <span className="form-checkbox-text">
-                                            Flight Duty (adds 30min buffer for rest calculations) ★
+                                            是否飛班 (另加RP計算用30分DP) ★
                                         </span>
                                     </label>
                                 </div>

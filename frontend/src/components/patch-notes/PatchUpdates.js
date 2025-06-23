@@ -75,7 +75,7 @@ export const patchUpdates = [
 },
 {
 	date: "2025-06-08",
-	appName: " EIP系統",
+	appName: "EIP系統",
 	updateInfo: 
 		[
 			"把分散的APP合併，增加抽屜式導覽"
@@ -83,11 +83,18 @@ export const patchUpdates = [
 },
 {
 	date: "2025-06-08",
-	appName: " EIP系統",
+	appName: "EIP系統",
 	updateInfo: 
 		[
 			"增加使用者權限等級"
 			]
 },
-
+{
+	date: "2025-06-23",
+	appName: "eTR產生器",
+	updateInfo: 
+		[
+			"修改UI問題"
+			]
+},
 ]

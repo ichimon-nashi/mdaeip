@@ -404,7 +404,7 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
             {userDetails && (
                 <Navbar 
                     userDetails={userDetails} 
-                    title="G-Day 假期規劃表" 
+                    title="GDay劃假系統" 
                     onLogout={onLogout}
                 />
             )}

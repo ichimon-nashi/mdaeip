@@ -504,8 +504,8 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 /* Desktop Responsive Design */
 @media (min-width: 1025px) {
 	.plannerContent {
-		padding: 2rem;
-		max-width: 70%;
+		padding: 1rem;
+		max-width: 90%;
 	}
 
 	.plannerTitle {

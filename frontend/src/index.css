@@ -1103,7 +1103,7 @@ nav {
 	align-items: center;
 	gap: 0.25rem;
 	padding: 0.25rem 0.75rem;
-	background-color: #f3f4f6;
+	background-color: #6d7990;
 	border: none;
 	border-radius: 0.5rem;
 	font-size: 0.875rem;
@@ -1120,7 +1120,7 @@ nav {
 	align-items: center;
 	gap: 0.25rem;
 	padding: 0.5rem 0.75rem;
-	background-color: #ea580c;
+	background-color: #e97a3f;
 	color: white;
 	border: none;
 	border-radius: 0.5rem;
@@ -1206,10 +1206,11 @@ nav {
 	position: absolute;
 	top: -0.5rem;
 	right: -0.5rem;
+	right: 0;
 	background-color: #ef4444;
 	color: white;
 	border: none;
-	border-radius: 50%;
+	border-radius: 10px;
 	padding: 0.25rem;
 	opacity: 0;
 	transition: opacity 0.2s;
@@ -1237,6 +1238,7 @@ nav {
 }
 
 .validation-title {
+	min-width: max-content;
 	font-size: 1.125rem;
 	font-weight: 600;
 	color: #dc2626;
@@ -1245,6 +1247,7 @@ nav {
 
 .validation-toggle {
 	font-size: 0.875rem;
+	width: fit-content;
 	color: #dc2626;
 	background: none;
 	border: none;
@@ -1337,7 +1340,7 @@ nav {
 }
 
 .calendar-cell {
-	height: 5rem;
+	height: 6rem;
 	min-height: fit-content;
 	border: 1px solid #e5e7eb;
 	padding: 0.25rem;
@@ -1352,7 +1355,7 @@ nav {
 }
 
 .calendar-cell.weekend {
-	background-color: #fef3c7;
+	background-color: #fff9e3;
 }
 
 .calendar-cell.weekend:hover {
@@ -1499,6 +1502,7 @@ nav {
 .screenshot-button {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 0.5rem;
 	padding: 0.75rem 1.5rem;
 	background-color: #059669;
@@ -1518,6 +1522,7 @@ nav {
 .screenshot-button.disabled {
 	background-color: #9ca3af;
 	cursor: not-allowed;
+	justify-content: center;
 }
 
 .blocked-text {
@@ -1562,6 +1567,7 @@ nav {
 	background: none;
 	border: none;
 	cursor: pointer;
+	width: fit-content;
 	transition: color 0.2s;
 }
 

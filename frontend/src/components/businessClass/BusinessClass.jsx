@@ -484,7 +484,7 @@ const BusinessClass = ({ userDetails, onLogout }) => {
                 {userDetails && (
                     <Navbar 
                         userDetails={userDetails} 
-                        title="BC擺盤訓練APP" 
+                        title="BC擺盤訓練" 
                         onLogout={onLogout}
                     />
                 )}
@@ -506,7 +506,7 @@ const BusinessClass = ({ userDetails, onLogout }) => {
             {userDetails && (
                 <Navbar 
                     userDetails={userDetails} 
-                    title="BC擺盤訓練APP" 
+                    title="BC擺盤訓練" 
                     onLogout={onLogout}
                 />
             )}
