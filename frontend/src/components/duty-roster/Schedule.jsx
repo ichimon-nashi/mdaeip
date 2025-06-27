@@ -76,10 +76,18 @@ const Schedule = ({ userDetails, onLogout }) => {
   }, []);
 
   const getDutyBackgroundColor = useCallback((duty) => {
-    if (duty === '空' || duty === '休' || duty === '例' || duty === 'G' || duty === '') {
+    if (duty === '休' || duty === '例' || duty === 'G') {
       return 'duty-off';
-    } else if (duty === 'A/L' || duty === '福補') {
+    } else if (duty === 'A/L') {
       return 'duty-leave';
+    } else if (duty === '福補') {
+      return 'duty-welfare';
+    } else if (duty === '空' || duty === '') {
+      return 'duty-empty';
+    } else if (duty === 'SH1' || duty === 'SH2') {
+      return 'duty-homestandby';
+    } else if (duty === '課' || duty === '訓' || duty === '訓D1' || duty === '訓D2' || duty === '訓D3' || duty === '會務') {
+      return 'duty-training'
     }
     return '';
   }, []);
@@ -183,7 +191,7 @@ const Schedule = ({ userDetails, onLogout }) => {
 
     // If selected duties are from multiple employees, alert user
     if (Object.keys(dutiesByEmployee).length > 1) {
-      toast("別貪心，請只選擇一位換班!", { icon: '😒', duration: 3000, });
+      toast("這位太太，一張換班單只能跟一位換班!", { icon: '😒', duration: 3000, });
       return;
     }
 

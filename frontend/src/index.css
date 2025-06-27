@@ -822,11 +822,27 @@ nav {
 }
 
 .duty-off {
-	background-color: #dcfce7;
+	background-color: #daffe7;
 }
 
 .duty-leave {
-	background-color: #dbeafe;
+	background-color: #d7e8ff;
+}
+
+.duty-welfare {
+	background-color: #ffcdcd;
+}
+
+.duty-empty {
+	background-color: #fff7d1;
+}
+
+.duty-homestandby {
+	background-color: #ffdefc;
+}
+
+.duty-training {
+	background-color: #e4d3c6;;
 }
 
 .duty-content {
