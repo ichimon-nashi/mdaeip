@@ -40,7 +40,7 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         { id: 'annual', label: 'A/L', description: '年假' },
         { id: 'welfare', label: '福補', description: '福利補休' },
         { id: 'medical', label: '體檢', description: '體檢' },
-        { id: 'sick', label: 'S/L', description: '病假' },
+        { id: 'gday', label: 'G Day', description: 'G Day' },
         { id: 'personal', label: 'P/L', description: '事假' }
     ]
 
