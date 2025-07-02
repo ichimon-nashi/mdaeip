@@ -569,7 +569,6 @@ const Schedule = ({ userDetails, onLogout }) => {
             <div className="no-data-message">
               <h3>📅 此月份暫無班表資料</h3>
               <p>請選擇其他月份或等待資料更新</p>
-              <p>目前僅有 <strong>2025年05月</strong> 和 <strong>2025年06月</strong> 的班表資料</p>
             </div>
           </div>
         )}

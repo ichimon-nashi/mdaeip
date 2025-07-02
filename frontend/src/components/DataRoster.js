@@ -143,7 +143,7 @@ export const employeeList = [
 	{ id: "55658", name: "徐孟霖", rank: "FS", base: "RMQ" },
 ];
 
-// Create employee lookup map for O(1) access instead of array.find()
+// Employee lookup map for O(1) access instead of array.find()
 const employeeMap = new Map(employeeList.map(emp => [emp.id, emp]));
 
 // Helper function to get employee details by ID
@@ -151,7 +151,7 @@ export const getEmployeeById = (id) => {
 	return employeeMap.get(id) || null;
 };
 
-// Create approved users with complete details
+// Approved users with complete details
 export const approvedUsers = [
 	// KHH 高雄組員
 	{ id: "22119", password: "timmy910", accessLevel: 50 }, //徐永成
@@ -186,7 +186,7 @@ export const approvedUsers = [
 	};
 });
 
-// Restructured schedule data - much more compact
+// Compact Schedule data
 export const dataRoster = [
 	{
 		month: "2025年05月",
@@ -1617,7 +1617,7 @@ export const dataRoster = [
 		},
 		{
 			employeeID: "59822",
-			duties: ["H2","I2","例","V2","VH2","休","訓D1","H2","例","訓D2","訓D3","M2","休","例","SP","M4","I4","I4","休","M2","VH2","SA","G","G","H2","I2","I4","例","休","M4","I4"]
+			duties: ["H2","I2","例","M2","M2","休","訓D1","H2","例","訓D2","訓D3","M2","休","例","SP","M4","I4","I4","休","M2","VH2","SA","G","G","H2","I2","I4","例","休","M4","I4"]
 		},
 		{
 			employeeID: "60426",
@@ -1633,15 +1633,15 @@ export const dataRoster = [
 		},
 		{
 			employeeID: "60430",
-			duties: ["休","SP","SH2","H4","","I2","訓D1","M2","例","I4","M4","SH2","休","例","M2","I2","M2","SP","休","I4","M4","I4","例","訓D2","訓D3","M4","休","例","M2","I2","休"]
+			duties: ["休","SP","SH2","H4","","I2","訓D1","M2","例","I4","M4","SH2","休","例","M2","I2","M2","SP","休","I4","M4","I4","例","訓D2","訓D3","M4","休","例","M2會","I2","休"]
 		},
 		{
 			employeeID: "60431",
-			duties: ["","I4","G","G","M4","SH2","H4","SH2","例","M2","I2","休","SH2","SH2","M4","例","H2","M2","休","I4","M4","SP","例","I2","SH2","休","H4","M4","SP","例",""]
+			duties: ["","M4", "I4","G","G","M4","SH2","H4","SH2","例","M2","I2","休","SH2","SH2","M4","例","H2","M2","休","I4","M4","SP","例","I2","SH2","休","H4","M4","SP","例"]
 		},
 		{
 			employeeID: "60432",
-			duties: ["I4","H4","例","H2","SH2","休","訓D1","例","M4","H4","休","M2","I2","G","G","SP","I4","M4","I4","福補","例","休","M2","訓D2","訓D3","I2","","M2","SP","M4","I4"]
+			duties: ["I4","H4","例","H2","SH2","休","訓D1","例","M4","H4","休","M2","I2","G","G","SP","I4","M4","I4","福補","例","休","M2","訓D2","訓D3","I2","","M2","SP會","M4","I4"]
 		},
 		{
 			employeeID: "60433",
@@ -1793,11 +1793,11 @@ export const dataRoster = [
 		},
 		{
 			employeeID: "53468",
-			duties: ["Z4","I4","Z4","休","R2","SH1","例","訓D1","休","訓D2","訓D3","Z2","R2","","A4","R4","Z4","G","G","A/L","Z2","SA","R2","例","休","H4","M4","H4","例","休","SA"]
+			duties: ["Z4","L4","Z4","休","R2","SH1","例","訓D1","休","訓D2","訓D3","Z2","R2","","A4","R4","Z4","G","G","A/L","Z2","SA","R2","例","休","H4","M4","H4","例","休","SA"]
 		},
 		{
 			employeeID: "53472",
-			duties: ["R2","R4","SH2","A4","休","SH2","Z4","A4","例","休","V4","I4","M4","H4","例","休","R2","R4","SP","例","I4","SH2","SH2","休","R2","L2","A2","例","休","H4"]
+			duties: ["R2","R4","SH2","A4","休","SH2","Z4","A4","例","休","V4","I4","M4","H4","例","休","R2","R4","SP", "R4","例","L4","SH2","SH2","休","R2","L2","A2","例","休","H4"]
 		},
 		{
 			employeeID: "53518",

@@ -45,14 +45,16 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
     ]
 
     const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
-    const dayNames = ['日', '一', '二', '三', '四', '五', '六']
+    // Changed to start from Monday
+    const dayNames = ['一', '二', '三', '四', '五', '六', '日']
 
-    // Calendar data generation
+    // Calendar data generation - Modified to start from Monday
     const getCalendarData = () => {
         const firstDay = new Date(currentYear, currentMonth, 1)
         const lastDay = new Date(currentYear, currentMonth + 1, 0)
         const daysInMonth = lastDay.getDate()
-        const startDayOfWeek = firstDay.getDay()
+        // Adjust to make Monday = 0, Sunday = 6
+        const startDayOfWeek = (firstDay.getDay() + 6) % 7
 
         const calendarDays = []
         
@@ -229,6 +231,66 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         return errors
     }
 
+    // Grouping functions similar to DutyChange.jsx
+    const groupConsecutiveVacations = (vacations) => {
+        if (!vacations || vacations.length === 0) return []
+        
+        const sortedVacations = [...vacations].sort((a, b) => new Date(a.date) - new Date(b.date))
+        const groups = []
+        let currentGroup = [sortedVacations[0]]
+        
+        for (let i = 1; i < sortedVacations.length; i++) {
+            const currentDate = new Date(sortedVacations[i].date)
+            const previousDate = new Date(sortedVacations[i - 1].date)
+            const daysDiff = (currentDate - previousDate) / (1000 * 60 * 60 * 24)
+            
+            // Check if same vacation type and consecutive days
+            if (daysDiff === 1 && sortedVacations[i].type.id === sortedVacations[i - 1].type.id) {
+                currentGroup.push(sortedVacations[i])
+            } else {
+                groups.push(currentGroup)
+                currentGroup = [sortedVacations[i]]
+            }
+        }
+        
+        groups.push(currentGroup)
+        return groups
+    }
+
+    const formatGroupedVacations = (vacationGroups) => {
+        const formattedEntries = []
+        
+        vacationGroups.forEach(group => {
+            if (group.length === 1) {
+                const vacation = group[0]
+                const formattedDate = formatDateForForm(vacation.date)
+                
+                formattedEntries.push({
+                    date: formattedDate,
+                    type: vacation.type.label,
+                    isRange: false
+                })
+            } else {
+                const startDate = formatDateForForm(group[0].date)
+                const endDate = formatDateForForm(group[group.length - 1].date)
+                const dateRange = `${startDate}-${endDate}`
+                
+                formattedEntries.push({
+                    date: dateRange,
+                    type: group[0].type.label,
+                    isRange: true
+                })
+            }
+        })
+        
+        return formattedEntries
+    }
+
+    const formatDateForForm = (dateStr) => {
+        const date = new Date(dateStr)
+        return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`
+    }
+
     // Screenshot generation
     const generateScreenshot = async () => {
         if (!plannerRef.current) return
@@ -275,7 +337,7 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         }
     }
 
-    // PDF form generation (simplified)
+    // PDF form generation with grouping logic
     const generatePDFForm = async () => {
         try {
             const canvas = document.createElement('canvas')
@@ -336,45 +398,57 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
                 renderTextOnCanvas(userDetails.name || '', coords.x, coords.y, 40)
             }
             
-            // Process vacation entries (simplified logic)
-            const vacationEntries = Object.entries(droppedItems)
+            // Process vacation entries with grouping
+            const vacationData = Object.entries(droppedItems)
                 .filter(([dateKey]) => {
                     const [year, month] = dateKey.split('-').map(Number)
                     return year === currentYear && month === currentMonth
                 })
-                .sort(([dateKeyA], [dateKeyB]) => {
-                    const dayA = parseInt(dateKeyA.split('-')[2])
-                    const dayB = parseInt(dateKeyB.split('-')[2])
-                    return dayA - dayB
+                .map(([dateKey, leaveType]) => {
+                    const [year, month, day] = dateKey.split('-').map(Number)
+                    return {
+                        date: `${year}-${month}-${day}`,
+                        type: leaveType
+                    }
                 })
 
+            // Group consecutive vacations of the same type
+            const vacationGroups = groupConsecutiveVacations(vacationData)
+            const formattedVacations = formatGroupedVacations(vacationGroups)
+
             const rowCoordinates = [
-                { leftDate: 90, leftVacation: 175, rightDate: 425, rightVacation: 510, y: 417 },
-                { leftDate: 90, leftVacation: 175, rightDate: 425, rightVacation: 510, y: 395 },
-                { leftDate: 90, leftVacation: 175, rightDate: 425, rightVacation: 510, y: 374 },
-                { leftDate: 250, leftVacation: 340, rightDate: 590, rightVacation: 677, y: 417 },
-                { leftDate: 250, leftVacation: 340, rightDate: 590, rightVacation: 677, y: 395 },
-                { leftDate: 250, leftVacation: 340, rightDate: 590, rightVacation: 677, y: 374 }
+                { leftDate: 70, leftVacation: 173, rightDate: 412, rightVacation: 510, y: 417 },
+                { leftDate: 70, leftVacation: 173, rightDate: 412, rightVacation: 510, y: 395 },
+                { leftDate: 70, leftVacation: 173, rightDate: 412, rightVacation: 510, y: 374 },
+                { leftDate: 230, leftVacation: 340, rightDate: 570, rightVacation: 677, y: 417 },
+                { leftDate: 230, leftVacation: 340, rightDate: 570, rightVacation: 677, y: 395 },
+                { leftDate: 230, leftVacation: 340, rightDate: 570, rightVacation: 677, y: 374 }
             ]
             
-            vacationEntries.forEach(([dateKey, leaveType], index) => {
+            formattedVacations.forEach((vacation, index) => {
                 if (index >= 6) return
-                
-                const [year, month, day] = dateKey.split('-').map(Number)
-                const formattedDate = `${String(month + 1).padStart(2, '0')}/${String(day).padStart(2, '0')}`
                 
                 if (index < rowCoordinates.length) {
                     const row = rowCoordinates[index]
                     
-                    let coords = convertToCanvasCoords(row.leftDate, row.y)
-                    renderTextOnCanvas(formattedDate, coords.x, coords.y, 40)
-                    coords = convertToCanvasCoords(row.leftVacation, row.y)
-                    renderTextOnCanvas(leaveType.label, coords.x, coords.y, 40)
+                    // Determine if this is a date range or single date
+                    const isDateRange = vacation.isRange || vacation.date.includes('-')
                     
-                    coords = convertToCanvasCoords(row.rightDate, row.y)
-                    renderTextOnCanvas(formattedDate, coords.x, coords.y, 40)
-                    coords = convertToCanvasCoords(row.rightVacation, row.y)
-                    renderTextOnCanvas(leaveType.label, coords.x, coords.y, 40)
+                    // Adjust coordinates based on whether it's a single date or date range
+                    const leftDateX = isDateRange ? row.leftDate : (row.leftDate + 17) // Shift right for single dates
+                    const leftVacationX = isDateRange ? row.leftVacation : (row.leftVacation + 0 ) // Shift right for single dates
+                    const rightDateX = isDateRange ? row.rightDate : (row.rightDate + 17) // Shift right for single dates  
+                    const rightVacationX = isDateRange ? row.rightVacation : (row.rightVacation + 0) // Shift right for single dates
+                    
+                    let coords = convertToCanvasCoords(leftDateX, row.y)
+                    renderTextOnCanvas(vacation.date, coords.x, coords.y, 40)
+                    coords = convertToCanvasCoords(leftVacationX, row.y)
+                    renderTextOnCanvas(vacation.type, coords.x, coords.y, 40)
+                    
+                    coords = convertToCanvasCoords(rightDateX, row.y)
+                    renderTextOnCanvas(vacation.date, coords.x, coords.y, 40)
+                    coords = convertToCanvasCoords(rightVacationX, row.y)
+                    renderTextOnCanvas(vacation.type, coords.x, coords.y, 40)
                 }
             })
             
@@ -514,8 +588,9 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
 
                             const key = `${currentYear}-${currentMonth}-${day}`
                             const droppedLeave = droppedItems[key]
+                            // Adjusted for Monday-first calendar (Monday = 0, Sunday = 6)
                             const dayOfWeek = (startDayOfWeek + day - 1) % 7
-                            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
+                            const isWeekend = dayOfWeek === 5 || dayOfWeek === 6 // Saturday or Sunday
 
                             return (
                                 <div
