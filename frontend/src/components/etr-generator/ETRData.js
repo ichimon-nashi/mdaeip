@@ -1258,6 +1258,11 @@ export const bulletinData = [
     time:"10:00",
     id:"G2507-008",
     title:"IM-03服裝儀容手冊重點摘要說明。",
+},{
+    date:"2025-07-15",
+    time:"15:41",
+    id:"G2507-009",
+    title:"2025年空服科7月份SAG會議紀錄。",
 },
 ]
 
