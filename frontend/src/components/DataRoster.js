@@ -1873,7 +1873,7 @@ export const dataRoster = [
 	crew_schedules: [
 		{
 			employeeID: "21701",
-			duties: ["OFC","","","OFC","OFC","Y4","OFC","OFC","","","OFC","OFC","OFC","OFC","OFC","","","OFC","OFC","OFC","OFC","X4","",,"","OFC","OFC","OFC","OFC","OFC","",""]
+			duties: ["OFC","","","OFC","OFC","Y4","OFC","OFC","","","OFC","OFC","OFC","OFC","OFC","","","OFC","OFC","OFC","OFC","X4","","","OFC","OFC","OFC","OFC","OFC","",""]
 		},
 		{
 			employeeID: "20580",
@@ -2197,7 +2197,7 @@ export const dataRoster = [
 		},
 		{
 			employeeID: "60431",
-			duties: ["休","I2","H2","例","M2","SP","I4","M4","休",,"H2","M4","I4","例","休","M2","I2","SP","","例","SH2","I4","M4","休","H4","M4","I4","","SH2","I4","G","G"]
+			duties: ["休","I2","H2","例","M2","SP","I4","M4","休","H2","M4","I4","例","休","M2","I2","SP","","例","SH2","I4","M4","休","H4","M4","I4","","SH2","I4","G","G"]
 		},
 		{
 			employeeID: "60432",
