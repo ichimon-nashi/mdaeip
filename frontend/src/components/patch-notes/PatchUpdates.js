@@ -86,4 +86,9 @@ export const patchUpdates = [
 			"修改bug產生出的表單不會把連續假期並在一起",
 		],
 	},
+	{
+		date: "2025-07-28",
+		appName: "任務互換系統",
+		updateInfo: ["增加8月班表", "使用原始excek班表增加準確度"],
+	},
 ];
