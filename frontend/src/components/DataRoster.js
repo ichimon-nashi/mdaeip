@@ -169,7 +169,7 @@ export const approvedUsers = [
 	{ id: "21986", password: "chrissychris", accessLevel: 1 }, //羅翔鴻
 	{ id: "22055", password: "sXVGgW64M24QScn", accessLevel: 1 }, //李懿婷
 	{ id: "30444", password: "vicky0727", accessLevel: 2 }, //徐慧真
-	{ id: "39426", password: "vivivi426", accessLevel: 2 }, //徐慧真
+	{ id: "39426", password: "vivivi426", accessLevel: 2 }, //柯佳華
 	
 	// RMQ 台中組員
 	{ id: "51740", password: "ellen1101", accessLevel: 2 }, //郭幸甄
