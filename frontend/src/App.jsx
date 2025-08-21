@@ -6,7 +6,6 @@ import Login from "./components/duty-roster/Login";
 import Schedule from "./components/duty-roster/Schedule";
 import MRTChecker from "./components/mrt-checker/MRTChecker";
 import GDayPlanner from "./components/vacation-planner/GDayPlanner";
-import BusinessClass from "./components/businessClass/BusinessClass";
 import ETRGenerator from "./components/etr-generator/ETRGenerator";
 import PatchNotes from './components/patch-notes/PatchNotes';
 
@@ -99,16 +98,6 @@ function App() {
         <Route path="/vacation-planner" element={
           <PrivateRoute element={
             <GDayPlanner 
-              userDetails={userDetails}
-              onLogout={handleLogout}
-            />
-          } />
-        } />
-
-        {/* Business Class Training app */}
-        <Route path="/mdabusiness" element={
-          <PrivateRoute element={
-            <BusinessClass 
               userDetails={userDetails}
               onLogout={handleLogout}
             />

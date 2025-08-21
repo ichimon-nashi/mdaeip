@@ -95,15 +95,6 @@ const NavigationDrawer = ({ isOpen, onClose, userDetails }) => {
             requiredLevel: 1
         },
         {
-            id: 'business-class',
-            title: 'BC擺盤訓練',
-            description: '商務艙擺盤練習',
-            icon: <Utensils size={24} />,
-            path: '/mdabusiness',
-            color: '#ea580c',
-            requiredLevel: 1
-        },
-        {
             id: 'etr-generator',
             title: 'eTR產生器',
             description: 'e-"TAHI" Report',
