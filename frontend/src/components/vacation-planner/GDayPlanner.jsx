@@ -257,41 +257,58 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         return groups
     }
 
-    const formatGroupedVacations = (vacationGroups) => {
-        const formattedEntries = []
+    const formatDateForText = (dateStr) => {
+        const date = new Date(dateStr)
+        return `${(date.getMonth() + 1)}/${date.getDate()}`
+    }
+
+    // Generate vacation text for clipboard
+    const generateVacationText = () => {
+        const vacationData = Object.entries(droppedItems)
+            .filter(([dateKey]) => {
+                const [year, month] = dateKey.split('-').map(Number)
+                return year === currentYear && month === currentMonth
+            })
+            .map(([dateKey, leaveType]) => {
+                const [year, month, day] = dateKey.split('-').map(Number)
+                return {
+                    date: `${year}-${month}-${day}`,
+                    type: leaveType
+                }
+            })
+
+        // Group consecutive vacations of the same type
+        const vacationGroups = groupConsecutiveVacations(vacationData)
         
-        vacationGroups.forEach(group => {
+        const textLines = vacationGroups.map(group => {
+            const dayCount = group.length
+            const leaveLabel = group[0].type.label
+            
             if (group.length === 1) {
-                const vacation = group[0]
-                const formattedDate = formatDateForForm(vacation.date)
-                
-                formattedEntries.push({
-                    date: formattedDate,
-                    type: vacation.type.label,
-                    isRange: false
-                })
+                const singleDate = formatDateForText(group[0].date)
+                return `${singleDate}: ${leaveLabel} (${dayCount}天)`
             } else {
-                const startDate = formatDateForForm(group[0].date)
-                const endDate = formatDateForForm(group[group.length - 1].date)
-                const dateRange = `${startDate}-${endDate}`
-                
-                formattedEntries.push({
-                    date: dateRange,
-                    type: group[0].type.label,
-                    isRange: true
-                })
+                const startDate = formatDateForText(group[0].date)
+                const endDate = formatDateForText(group[group.length - 1].date)
+                return `${startDate} - ${endDate}: ${leaveLabel} (${dayCount}天)`
             }
         })
-        
-        return formattedEntries
+
+        return textLines.join('\n')
     }
 
-    const formatDateForForm = (dateStr) => {
-        const date = new Date(dateStr)
-        return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`
+    // Copy text to clipboard
+    const copyToClipboard = async (text) => {
+        try {
+            await navigator.clipboard.writeText(text)
+            toast.success('假期清單已複製到剪貼簿！', { duration: 3000, position: 'top-center' })
+        } catch (error) {
+            console.error('Failed to copy text:', error)
+            toast.error('複製到剪貼簿失敗', { duration: 3000, position: 'top-center' })
+        }
     }
 
-    // Screenshot generation
+    // Screenshot generation (modified to include clipboard text)
     const generateScreenshot = async () => {
         if (!plannerRef.current) return
 
@@ -304,6 +321,13 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         }
 
         try {
+            // Generate vacation text and copy to clipboard
+            const vacationText = generateVacationText()
+            if (vacationText) {
+                await copyToClipboard(vacationText)
+            }
+
+            // Generate screenshot
             if (!window.html2canvas) {
                 const script = document.createElement('script')
                 script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
@@ -329,143 +353,10 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
             link.click()
             document.body.removeChild(link)
 
-            await generatePDFForm()
-            toast.success('截圖及表單已成功儲存！', { duration: 3000, position: 'top-center' })
+            toast.success('截圖已成功儲存！', { duration: 3000, position: 'top-center' })
         } catch (error) {
             console.error('Error generating screenshot:', error)
             toast.error('截圖產生失敗，請重試', { duration: 3000, position: 'top-center' })
-        }
-    }
-
-    // PDF form generation with grouping logic
-    const generatePDFForm = async () => {
-        try {
-            const canvas = document.createElement('canvas')
-            const ctx = canvas.getContext('2d')
-            
-            canvas.width = 3508
-            canvas.height = 2480
-            
-            const templateImg = new Image()
-            templateImg.crossOrigin = 'anonymous'
-            
-            await new Promise((resolve, reject) => {
-                templateImg.onload = resolve
-                templateImg.onerror = reject
-                templateImg.src = formTemplateImage
-            })
-            
-            ctx.drawImage(templateImg, 0, 0, 3508, 2480)
-
-            const renderTextOnCanvas = (text, x, y, fontSize = 40) => {
-                if (!text || typeof text !== 'string') return
-                
-                const cleanText = String(text).trim()
-                if (!cleanText) return
-                
-                ctx.font = `${fontSize}px "Noto Sans TC", "Microsoft JhengHei", sans-serif`
-                ctx.fillStyle = 'black'
-                ctx.textAlign = 'left'
-                ctx.textBaseline = 'middle'
-                ctx.fillText(cleanText, x, y)
-            }
-
-            const convertToCanvasCoords = (x, y) => {
-                const scaleX = 2.5
-                const scaleY = 3.0
-                const pixelX = (x / 72) * 800 / scaleX
-                const pixelY = 2480 - ((y / 72) * 900 / scaleY)
-                return { x: pixelX, y: pixelY }
-            }
-
-            if (userDetails) {
-                const today = new Date()
-                const applicationDate = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}/${today.getFullYear()}`
-                
-                let coords = convertToCanvasCoords(133, 475)
-                renderTextOnCanvas(applicationDate, coords.x, coords.y, 40)
-                coords = convertToCanvasCoords(467, 475)
-                renderTextOnCanvas(applicationDate, coords.x, coords.y, 40)
-                
-                coords = convertToCanvasCoords(260, 475)
-                renderTextOnCanvas(userDetails.employeeID || '', coords.x, coords.y, 40)
-                coords = convertToCanvasCoords(600, 475)
-                renderTextOnCanvas(userDetails.employeeID || '', coords.x, coords.y, 40)
-                
-                coords = convertToCanvasCoords(340, 475)
-                renderTextOnCanvas(userDetails.name || '', coords.x, coords.y, 40)
-                coords = convertToCanvasCoords(675, 475)
-                renderTextOnCanvas(userDetails.name || '', coords.x, coords.y, 40)
-            }
-            
-            // Process vacation entries with grouping
-            const vacationData = Object.entries(droppedItems)
-                .filter(([dateKey]) => {
-                    const [year, month] = dateKey.split('-').map(Number)
-                    return year === currentYear && month === currentMonth
-                })
-                .map(([dateKey, leaveType]) => {
-                    const [year, month, day] = dateKey.split('-').map(Number)
-                    return {
-                        date: `${year}-${month}-${day}`,
-                        type: leaveType
-                    }
-                })
-
-            // Group consecutive vacations of the same type
-            const vacationGroups = groupConsecutiveVacations(vacationData)
-            const formattedVacations = formatGroupedVacations(vacationGroups)
-
-            const rowCoordinates = [
-                { leftDate: 70, leftVacation: 173, rightDate: 412, rightVacation: 510, y: 417 },
-                { leftDate: 70, leftVacation: 173, rightDate: 412, rightVacation: 510, y: 395 },
-                { leftDate: 70, leftVacation: 173, rightDate: 412, rightVacation: 510, y: 374 },
-                { leftDate: 230, leftVacation: 340, rightDate: 570, rightVacation: 677, y: 417 },
-                { leftDate: 230, leftVacation: 340, rightDate: 570, rightVacation: 677, y: 395 },
-                { leftDate: 230, leftVacation: 340, rightDate: 570, rightVacation: 677, y: 374 }
-            ]
-            
-            formattedVacations.forEach((vacation, index) => {
-                if (index >= 6) return
-                
-                if (index < rowCoordinates.length) {
-                    const row = rowCoordinates[index]
-                    
-                    // Determine if this is a date range or single date
-                    const isDateRange = vacation.isRange || vacation.date.includes('-')
-                    
-                    // Adjust coordinates based on whether it's a single date or date range
-                    const leftDateX = isDateRange ? row.leftDate : (row.leftDate + 17) // Shift right for single dates
-                    const leftVacationX = isDateRange ? row.leftVacation : (row.leftVacation + 0 ) // Shift right for single dates
-                    const rightDateX = isDateRange ? row.rightDate : (row.rightDate + 17) // Shift right for single dates  
-                    const rightVacationX = isDateRange ? row.rightVacation : (row.rightVacation + 0) // Shift right for single dates
-                    
-                    let coords = convertToCanvasCoords(leftDateX, row.y)
-                    renderTextOnCanvas(vacation.date, coords.x, coords.y, 40)
-                    coords = convertToCanvasCoords(leftVacationX, row.y)
-                    renderTextOnCanvas(vacation.type, coords.x, coords.y, 40)
-                    
-                    coords = convertToCanvasCoords(rightDateX, row.y)
-                    renderTextOnCanvas(vacation.date, coords.x, coords.y, 40)
-                    coords = convertToCanvasCoords(rightVacationX, row.y)
-                    renderTextOnCanvas(vacation.type, coords.x, coords.y, 40)
-                }
-            })
-            
-            const monthName = monthNames[currentMonth].replace('月', '')
-            const userName = userDetails?.name || 'user'
-            const formFilename = `FMEF-06-03空服組員指定任務休假日申請單-${userName}${currentYear}年${monthName}月.png`
-            
-            const formLink = document.createElement('a')
-            formLink.download = formFilename
-            formLink.href = canvas.toDataURL('image/png')
-            document.body.appendChild(formLink)
-            formLink.click()
-            document.body.removeChild(formLink)
-            
-        } catch (error) {
-            console.error('Error generating PDF form:', error)
-            toast.error('表單產生失敗', { duration: 3000, position: 'top-center' })
         }
     }
 
@@ -650,7 +541,7 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
                     className={styles.screenshotButton}
                 >
                     <Camera className={styles.screenshotIcon} />
-                    截圖 & 產生表單
+                    截圖 & 複製假期清單
                 </button>
             </div>
         </div>
