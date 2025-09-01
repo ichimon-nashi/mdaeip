@@ -164,6 +164,7 @@ export const approvedUsers = [
 	{ id: "59161", password: "HXEZNz3JxGOlsOy", accessLevel: 1 }, //王儀珺
 	{ id: "59230", password: "AfEQHKc05sEtfhS", accessLevel: 1 }, //葉蓉婷
 	{ id: "59822", password: "ws0328", accessLevel: 2 }, //郭惟歆
+		{ id: "53522", password: "tomoya", accessLevel: 2 }, //楊豐成
 
 	// TSA 台北組員
 	{ id: "21986", password: "chrissychris", accessLevel: 1 }, //羅翔鴻
