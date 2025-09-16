@@ -89,6 +89,14 @@ export const patchUpdates = [
 	{
 		date: "2025-07-28",
 		appName: "任務互換系統",
-		updateInfo: ["增加8月班表", "使用原始excek班表增加準確度"],
+		updateInfo: ["增加8月班表", "使用原始excel班表增加準確度"],
+	},
+		{
+		date: "2025-09-16",
+		appName: "EIP系統",
+		updateInfo: [
+			"修改bug，後面網址連結不見，導致無法把APP存到桌面", 
+			"GDay劃假系統把截圖按鍵分成兩個按鍵，截圖、複製文字"
+		],
 	},
 ];
