@@ -308,6 +308,7 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 	transition: all 0.3s ease;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 }
 
 .calendarCell.clickable {
@@ -357,8 +358,12 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 	position: relative;
 	overflow: hidden;
 	cursor: pointer;
-	margin-top: auto;
 	flex-shrink: 0;
+	align-self: stretch;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 18px;
 }
 
 .droppedLeave:hover {
@@ -400,33 +405,86 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 	font-size: 0.8rem;
 }
 
-/* Enhanced Screenshot Section - Mobile First */
-.screenshotSection {
-	text-align: center;
-	padding: 1rem 0;
+/* NEW: Action Section for separated buttons */
+.actionSection {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	margin-top: 1rem;
+	padding: 1rem;
 	flex-shrink: 0;
+	flex-wrap: nowrap;
 }
 
-.screenshotButton {
-	background: linear-gradient(100deg, hsla(33, 100%, 53%, 1) 30%, hsla(58, 100%, 68%, 1) 100%);
-	color: white;
+/* NEW: Copy Button Styles */
+.copyButton {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.5rem;
 	border: none;
-	padding: 0 20px;
-	/* border-radius: 20px; */
-	cursor: pointer;
+	border-radius: 20px;
 	font-size: 0.9rem;
 	font-weight: bold;
+	cursor: pointer;
 	transition: all 0.3s ease;
-	box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
-	display: inline-flex;
-	align-items: center;
+	background: linear-gradient(135deg, #3b82f6, #2563eb);
+	color: white;
+	box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+	min-width: 140px;
 	justify-content: center;
-	gap: 8px;
+}
+
+.copyButton:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+	background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.copyButton:active {
+	transform: translateY(0);
+}
+
+/* Enhanced Screenshot Button - Updated */
+.screenshotButton {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.5rem;
+	border: none;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	background: linear-gradient(100deg, hsla(33, 100%, 53%, 1) 30%, hsla(58, 100%, 68%, 1) 100%);
+	color: white;
+	box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+	min-width: 140px;
+	justify-content: center;
 }
 
 .screenshotButton:hover {
 	transform: translateY(-1px);
-	box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+	box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
+}
+
+.screenshotButton:active {
+	transform: translateY(0);
+}
+
+/* NEW: Action Icon Styles */
+.actionIcon {
+	width: 1.25rem;
+	height: 1.25rem;
+	flex-shrink: 0;
+}
+
+/* Legacy screenshot section - kept for compatibility */
+.screenshotSection {
+	text-align: center;
+	padding: 1rem 0;
+	flex-shrink: 0;
 }
 
 .screenshotIcon {
@@ -485,6 +543,7 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 	.droppedLeave {
 		padding: 4px 6px;
 		font-size: 0.8rem;
+		min-height: 24px;
 	}
 
 	.instructionText {
@@ -495,9 +554,21 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 		font-size: 0.9rem;
 	}
 
+	.actionSection {
+		gap: 1.5rem;
+		padding: 1.5rem;
+	}
+
+	.copyButton,
 	.screenshotButton {
 		padding: 12px 24px;
 		font-size: 1rem;
+		min-width: 160px;
+	}
+
+	.actionIcon {
+		width: 1.5rem;
+		height: 1.5rem;
 	}
 }
 
@@ -601,6 +672,7 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 		font-size: 0.9rem;
 		border-radius: 8px;
 		cursor: grab;
+		min-height: 28px;
 	}
 
 	.instructions {
@@ -623,14 +695,25 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 		margin: 5px 0;
 	}
 
-	.screenshotSection {
-		padding: 2rem 0;
+	.actionSection {
+		gap: 2rem;
+		padding: 2rem;
 	}
 
+	.copyButton,
 	.screenshotButton {
 		padding: 15px 30px;
 		font-size: 1.1rem;
-		gap: 10px;
+		min-width: 180px;
+	}
+
+	.actionIcon {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.screenshotSection {
+		padding: 2rem 0;
 	}
 
 	.screenshotIcon {
@@ -682,5 +765,24 @@ background: linear-gradient(90deg, hsla(207, 80%, 59%, 1) 0%, hsla(344, 64%, 79%
 	.droppedLeave {
 		padding: 2px 3px;
 		font-size: 0.65rem;
+		min-height: 18px;
+	}
+
+	.actionSection {
+		gap: 0.5rem;
+		padding: 0.75rem;
+	}
+
+	.copyButton,
+	.screenshotButton {
+		padding: 8px 12px;
+		font-size: 0.75rem;
+		min-width: 100px;
+		flex: 1;
+	}
+
+	.actionIcon {
+		width: 1rem;
+		height: 1rem;
 	}
 }

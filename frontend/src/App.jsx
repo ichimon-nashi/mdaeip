@@ -29,7 +29,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router basename="/mdaeip">
       {/* Single Toaster instance for the entire app */}
       <Toaster 
         position="top-center" 
@@ -64,7 +64,7 @@ function App() {
           )
         } />
         
-        Main duty roster app
+        {/* Main duty roster app */}
         <Route path="/mdaduty" element={
           <PrivateRoute element={
             <Schedule 
@@ -123,7 +123,6 @@ function App() {
             />
           } />
         } />
-
 
         {/* Fallback redirect - any unknown route goes to login */}
         <Route path="*" element={<Navigate to="/" replace />} />

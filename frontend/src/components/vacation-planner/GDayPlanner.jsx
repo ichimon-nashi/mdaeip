@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Calendar, Camera, X } from 'lucide-react'
+import { Calendar, Camera, X, Copy } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Navbar from '../common/Navbar'
 import formTemplateImage from './gday-form-template.png'
@@ -257,12 +257,14 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         return groups
     }
 
-    const formatDateForText = (dateStr) => {
-        const date = new Date(dateStr)
-        return `${(date.getMonth() + 1)}/${date.getDate()}`
+    // Fixed date formatting function
+    const formatDateForText = (year, month, day) => {
+        // month is already 0-based from currentMonth, so we need to add 1 for display
+        const displayMonth = month + 1
+        return `${displayMonth}/${day}`
     }
 
-    // Generate vacation text for clipboard
+    // Generate vacation text for clipboard - FIXED
     const generateVacationText = () => {
         const vacationData = Object.entries(droppedItems)
             .filter(([dateKey]) => {
@@ -272,7 +274,10 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
             .map(([dateKey, leaveType]) => {
                 const [year, month, day] = dateKey.split('-').map(Number)
                 return {
-                    date: `${year}-${month}-${day}`,
+                    date: new Date(year, month, day), // month is already 0-based in dateKey
+                    year,
+                    month,
+                    day,
                     type: leaveType
                 }
             })
@@ -285,11 +290,11 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
             const leaveLabel = group[0].type.label
             
             if (group.length === 1) {
-                const singleDate = formatDateForText(group[0].date)
+                const singleDate = formatDateForText(group[0].year, group[0].month, group[0].day)
                 return `${singleDate}: ${leaveLabel} (${dayCount}天)`
             } else {
-                const startDate = formatDateForText(group[0].date)
-                const endDate = formatDateForText(group[group.length - 1].date)
+                const startDate = formatDateForText(group[0].year, group[0].month, group[0].day)
+                const endDate = formatDateForText(group[group.length - 1].year, group[group.length - 1].month, group[group.length - 1].day)
                 return `${startDate} - ${endDate}: ${leaveLabel} (${dayCount}天)`
             }
         })
@@ -297,10 +302,16 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         return textLines.join('\n')
     }
 
-    // Copy text to clipboard
-    const copyToClipboard = async (text) => {
+    // Copy text to clipboard - SEPARATED FUNCTION
+    const copyToClipboard = async () => {
         try {
-            await navigator.clipboard.writeText(text)
+            const vacationText = generateVacationText()
+            if (!vacationText) {
+                toast.error('目前沒有假期安排可複製', { duration: 2000, position: 'top-center' })
+                return
+            }
+            
+            await navigator.clipboard.writeText(vacationText)
             toast.success('假期清單已複製到剪貼簿！', { duration: 3000, position: 'top-center' })
         } catch (error) {
             console.error('Failed to copy text:', error)
@@ -308,7 +319,7 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         }
     }
 
-    // Screenshot generation (modified to include clipboard text)
+    // Screenshot generation - SEPARATED FUNCTION
     const generateScreenshot = async () => {
         if (!plannerRef.current) return
 
@@ -321,12 +332,6 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
         }
 
         try {
-            // Generate vacation text and copy to clipboard
-            const vacationText = generateVacationText()
-            if (vacationText) {
-                await copyToClipboard(vacationText)
-            }
-
             // Generate screenshot
             if (!window.html2canvas) {
                 const script = document.createElement('script')
@@ -534,14 +539,24 @@ const GDayPlanner = ({ userDetails, onLogout }) => {
                 </div>
             </div>
 
-            {/* Screenshot Button */}
-            <div className={styles.screenshotSection}>
+            {/* Action Buttons - SEPARATED */}
+            <div className={styles.actionSection}>
+                <button
+                    onClick={copyToClipboard}
+                    className={styles.copyButton}
+                    title="複製假期清單到剪貼簿"
+                >
+                    <Copy className={styles.actionIcon} />
+                    複製假期清單
+                </button>
+                
                 <button
                     onClick={generateScreenshot}
                     className={styles.screenshotButton}
+                    title="儲存截圖"
                 >
-                    <Camera className={styles.screenshotIcon} />
-                    截圖 & 複製假期清單
+                    <Camera className={styles.actionIcon} />
+                    儲存截圖
                 </button>
             </div>
         </div>
